@@ -1,3 +1,4 @@
+/* globals.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,15 +8,74 @@
   --foreground: #171717;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+}
+
+html {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+html.no-theme {
+  visibility: hidden;
+}
+
+/* Grid background for both modes */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(to right, #4f4f4f2e 1px, transparent 1px),
+    linear-gradient(to bottom, #8080800a 1px, transparent 1px);
+  background-size: 14px 24px;
+  z-index: -1;
+}
+
+/* Radial gradient for light mode */
+body::after {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: -10%;
+  height: 1000px;
+  width: 1000px;
+  border-radius: 50%;
+  background: radial-gradient(circle 400px at 50% 300px, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.1));
+  z-index: -2;
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Radial gradient for dark mode */
+body.dark::after {
+  background: radial-gradient(circle 400px at 50% 300px, rgba(201, 179, 179, 0.267), rgb(0, 0, 0));
+}
+
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.show {
+  opacity: 1;
+  transform: translateY(0);
 }
